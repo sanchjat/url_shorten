@@ -35,7 +35,9 @@ Generate short url
 
 
 
-Notes:
+TODO:
 - For now I am running flask server directly but in prod we can run via `uwsgi`
 - Didn't get a time to write a testcase, just added 2 test for util
 - I also wanted to added comments in functions.
+- Cache is not implemented.
+- For Input APIs we can verify schema.
