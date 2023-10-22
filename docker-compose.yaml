@@ -1,0 +1,40 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+
+
+  prescript:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - APP_ENV=TEST
+      - DB_USERNAME=root
+      - DB_PASSWORD=example
+
+    depends_on:
+      - mongodb
+    entrypoint: /pre_script.sh
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mongodb
+      - prescript
+    volumes:
+      - ${PWD}/short_url:/short_url
+    environment:
+      - APP_ENV=TEST
+      - DB_USERNAME=root
+      - DB_PASSWORD=example
+    ports:
+      - 5000:5000
+      - 6000:6000
